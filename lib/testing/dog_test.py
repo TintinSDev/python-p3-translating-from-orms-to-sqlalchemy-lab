@@ -30,18 +30,17 @@ class TestDog:
         '''contains function "create_table()" that takes a declarative_base and creates a SQLite database.'''
         
         engine = create_engine(SQLITE_URL)
-        create_table(Base, engine)
+        create_table(Base,engine)
         assert os.path.exists(db_dir)
         os.remove(db_dir)
 
     def test_saves_dog(self):
         '''contains function "save()" that takes a Dog instance as an argument and saves the dog to the database.'''
-
         engine = create_engine(SQLITE_URL)
         Base.metadata.create_all(engine)
         Session = sessionmaker(bind=engine)
         session = Session()
-        
+
         joey = Dog(name="joey", breed="cocker spaniel")
         save(session, joey)
 
@@ -85,7 +84,7 @@ class TestDog:
         session.commit()
         
         conan = find_by_name(session, 'conan')
-        assert(conan.name == 'conan')
+        assert (conan.name == 'conan')
 
         os.remove(db_dir)
 
@@ -107,6 +106,7 @@ class TestDog:
         assert dog_1.breed == 'chihuahua'
 
         os.remove(db_dir)
+        
 
     def test_finds_by_name_and_breed(self):
         '''contains function "find_by_name_and_breed()" that takes a session, a name, and a breed as arguments and returns a Dog instance matching that record.'''
